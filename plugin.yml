@@ -1,0 +1,9 @@
+name: BUHC
+main: BUHC\BUHC\BUHC
+version: 3.0.4
+api: [3.0.0-ALPHA12]
+author: HummelSvem
+commands:
+    buhc:
+        usage: /buhc
+        description: Crear-Game
