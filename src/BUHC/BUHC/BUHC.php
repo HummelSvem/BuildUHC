@@ -236,10 +236,10 @@ class BUHC extends PluginBase implements Listener {
                 if ($event instanceof EntityDamageByEntityEvent && $event->getDamager() instanceof Player) {
                  $golpeado = $event->getEntity()->getNameTag();
                  $golpeador = $event->getDamager()->getNameTag();
-                if((strpos($golpeado, "§c[RED]") !== false) && (strpos($golpeador, "§c[RED]") !== false)){
+                if((strpos($golpeado, "§c[RED]") !== true) && (strpos($golpeador, "§c[RED]") !== true)){
                 $event->setCancelled();
                 }
-                elseif((strpos($golpeado, "§9[BLUE]") !== false) && (strpos($golpeador, "§9[BLUE]") !== false)){
+                elseif((strpos($golpeado, "§9[BLUE]") !== true) && (strpos($golpeador, "§9[BLUE]") !== true)){
                 $event->setCancelled();
                 }
                 }
@@ -262,11 +262,11 @@ class BUHC extends PluginBase implements Listener {
             $hp = $player->getHealth();
             $full = $player->getMaxHealth();
             $real = intval($hp/$full*100);
-            if(strpos($player->getNameTag(), "§c[RED]") !== false)
+            if(strpos($player->getNameTag(), "§c[RED]") !== true)
             {
                 $player->setNameTag("§c[RED]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
             }
-            elseif(strpos($player->getNameTag(), "§9[BLUE]") !== false)
+            elseif(strpos($player->getNameTag(), "§9[BLUE]") !== true)
             {
                 $player->setNameTag("§9[BLUE]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
             }
@@ -528,13 +528,13 @@ class GameSender extends PluginTask {
                                                         {
                                                             $this->plugin->getteam($pl, $arena);
                                                             $thespawn = $config->get($arena . "Spawn1");
-                                                            if(strpos($pl->getNameTag(), "§c[RED]") !== false)
+                                                            if(strpos($pl->getNameTag(), "§c[RED]") !== true)
                                                             {
                                                             $spawn = new Position($thespawn[0]+10.5,$thespawn[1]+1,$thespawn[2]+0.5,$levelArena);
                                                             $levelArena->loadChunk($spawn->getFloorX(), $spawn->getFloorZ());
                                                             $pl->teleport($spawn,90,0);
                                                             }
-                                                            elseif(strpos($pl->getNameTag(), "§9[BLUE]") !== false)
+                                                            elseif(strpos($pl->getNameTag(), "§9[BLUE]") !== true)
                                                             {
                                                             $spawn = new Position($thespawn[0]-10.5,$thespawn[1]+1,$thespawn[2]+0.5,$levelArena);
                                                             $levelArena->loadChunk($spawn->getFloorX(), $spawn->getFloorZ());
@@ -591,7 +591,7 @@ class GameSender extends PluginTask {
                                                                     foreach($players as $pley)
                                                                     {
                                                                         $pl = $this->getOwner()->getServer()->getPlayerExact($pley);
-                                                                        if(strpos($pl->getNameTag(), "§c[RED]") !== false)
+                                                                        if(strpos($pl->getNameTag(), "§c[RED]") !== true)
                                                                         {
                                                                             array_push($winners, $pl->getName());
                                                                             $lal = TE::RED;
@@ -604,7 +604,7 @@ class GameSender extends PluginTask {
                                                                     foreach($players as $pley)
                                                                     {
                                                                         $pl = $this->getOwner()->getServer()->getPlayerExact($pley);
-                                                                        if(strpos($pl->getNameTag(), "§9[BLUE]") !== false)
+                                                                        if(strpos($pl->getNameTag(), "§9[BLUE]") !== true)
                                                                         {
                                                                             array_push($winners, $pl->getName());
                                                                             $lal = TE::BLUE;
