@@ -198,14 +198,14 @@ class BUHC extends PluginBase implements Listener {
                 $asassin = $event->getEntity()->getLastDamageCause()->getDamager();
                 if($asassin instanceof Player){
                 foreach($jugador->getLevel()->getPlayers() as $pl){
-				$pl->sendMessage(TE::YELLOW.$jugador->getName() . TE::GREEN. " fue derrotado por " .TE::AQUA. $asassin->getNameTag());
+				$pl->sendMessage(TE::YELLOW.$jugador->getName() . TE::GREEN. " wurde besiegt von" .TE::AQUA. $asassin->getNameTag());
 			}
                 }
                 }
                 else
                 {
                 foreach($jugador->getLevel()->getPlayers() as $pl){
-                $pl->sendMessage(TE::YELLOW.$jugador->getName() . TE::GREEN . " derrotado");
+                $pl->sendMessage(TE::YELLOW.$jugador->getName() . TE::GREEN . " besiegt");
                 }
                 }
                 $jugador->setNameTag($jugador->getName());
@@ -236,10 +236,10 @@ class BUHC extends PluginBase implements Listener {
                 if ($event instanceof EntityDamageByEntityEvent && $event->getDamager() instanceof Player) {
                  $golpeado = $event->getEntity()->getNameTag();
                  $golpeador = $event->getDamager()->getNameTag();
-                if((strpos($golpeado, "Â§c[RED]") !== false) && (strpos($golpeador, "Â§c[RED]") !== false)){
+                if((strpos($golpeado, "�c[RED]") !== false) && (strpos($golpeador, "�c[RED]") !== false)){
                 $event->setCancelled();
                 }
-                elseif((strpos($golpeado, "Â§9[BLUE]") !== false) && (strpos($golpeador, "Â§9[BLUE]") !== false)){
+                elseif((strpos($golpeado, "�9[BLUE]") !== false) && (strpos($golpeador, "�9[BLUE]") !== false)){
                 $event->setCancelled();
                 }
                 }
@@ -262,13 +262,13 @@ class BUHC extends PluginBase implements Listener {
             $hp = $player->getHealth();
             $full = $player->getMaxHealth();
             $real = intval($hp/$full*100);
-            if(strpos($player->getNameTag(), "Â§c[RED]") !== false)
+            if(strpos($player->getNameTag(), "�c[RED]") !== false)
             {
-                $player->setNameTag("Â§c[RED]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
+                $player->setNameTag("�c[RED]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
             }
-            elseif(strpos($player->getNameTag(), "Â§9[BLUE]") !== false)
+            elseif(strpos($player->getNameTag(), "�9[BLUE]") !== false)
             {
-                $player->setNameTag("Â§9[BLUE]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
+                $player->setNameTag("�9[BLUE]".$player->getName()."\n".TE::BOLD.TE::GOLD.$real.TE::YELLOW."%");
             }
 	}
         
@@ -280,7 +280,7 @@ class BUHC extends PluginBase implements Listener {
             {
                 if(($this->mode==26)&&(in_array($player->getName(), $this->op)))
                 {
-                        $tile->setText(TE::AQUA . "[Unirse]",TE::GREEN  . "0 / 4","Â§f" . $this->currentLevel,$this->prefix);
+                        $tile->setText(TE::AQUA . "[Beitreten]",TE::GREEN  . "0 / 4","�f" . $this->currentLevel,$this->prefix);
                         $this->refreshArenas();
                         $this->currentLevel = "";
                         $this->mode = 0;
@@ -292,26 +292,26 @@ class BUHC extends PluginBase implements Listener {
                     $text = $tile->getText();
                     if($text[3] == $this->prefix)
                     {
-                        if($text[0]==TE::AQUA . "[Unirse]")
+                        if($text[0]==TE::AQUA . "[Beitreten]")
                         {
-                            $namemap = str_replace("Â§f", "", $text[2]);
+                            $namemap = str_replace("�f", "", $text[2]);
                             $config = new Config($this->getDataFolder()."mapas/".$namemap.".yml", Config::YAML);
                             $players = $this->getPlayers($namemap);
                             $this->removesiesta($player->getName());
                             foreach ($players as $pn){
                                 if($pn == $player->getName()){
-                                    $player->sendMessage($this->prefix.TE::RED."Has dejado la espera");
+                                    $player->sendMessage($this->prefix.TE::RED."Du hast die Wartezeit verlassen");
                                     return;
                                 }
                             }
                             $players[] = $player->getName();
                             $config->set("Players", $players);
                             $config->save();
-                            $player->sendMessage($this->prefix.TE::GREEN."Te has unido a la espera");
+                            $player->sendMessage($this->prefix.TE::GREEN."Du hast die Wartezeit betreten");
                         }
                         else
                         {
-                            $player->sendMessage($this->prefix.TE::RED."No puedes entrar");
+                            $player->sendMessage($this->prefix.TE::RED."Du kannst nicht die Runde beitreten");
                         }
                     }
                 }
@@ -320,12 +320,12 @@ class BUHC extends PluginBase implements Listener {
             {
                 $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
                 $config->set($this->currentLevel . "Spawn" . $this->mode, array($block->getX(),$block->getY()+1,$block->getZ()));
-                $player->sendMessage($this->prefix . "Spawn DM Registrado!");
+                $player->sendMessage($this->prefix . "Spawn wurde registriert!");
                 $config->set("arenas",$this->arenas);
-                $config->set($this->currentLevel . "inicio", 0);
+                $config->set($this->currentLevel . "Spawn", 0);
                 $confi = new Config($this->getDataFolder()."mapas/".$this->currentLevel.".yml", Config::YAML);
                 $confi->set("Players", array("@refertitiano"));
-                $player->sendMessage($this->prefix . "Toca un cartel para registrar Arena!");
+                $player->sendMessage($this->prefix . "Tippen sie auf ein Schild um die Arena zu registrieren!");
                 $spawn = $this->getServer()->getDefaultLevel()->getSafeSpawn();
                 $this->getServer()->getDefaultLevel()->loadChunk($spawn->getFloorX(), $spawn->getFloorZ());
                 $player->teleport($spawn,0,0);
@@ -340,13 +340,13 @@ class BUHC extends PluginBase implements Listener {
             $players = $this->getPlayers($level);
             if($players[0]==$player->getName() || $players[1]==$player->getName())
             {
-               $player->setNameTag("Â§9[BLUE]".$player->getName());
-               $player->sendMessage($this->prefix.TE::BLUE."ERES DEL EQUIPO AZUL");
+               $player->setNameTag("�9[BLUE]".$player->getName());
+               $player->sendMessage($this->prefix.TE::BLUE."Du bist in dem Blauen Team");
             }
             elseif($players[2]==$player->getName() || $players[3]==$player->getName())
             {
-                $player->setNameTag("Â§c[RED]".$player->getName());
-                $player->sendMessage($this->prefix.TE::RED."ERES DEL EQUIPO ROJO");
+                $player->setNameTag("�c[RED]".$player->getName());
+                $player->sendMessage($this->prefix.TE::RED."Du bist in dem Roten Team");
             }
         }
         
@@ -393,7 +393,7 @@ class BUHC extends PluginBase implements Listener {
 									array_push($this->arenas,$args[1]);
 									$this->currentLevel = $args[1];
 									$this->mode = 1;
-									$player->sendMessage($this->prefix . "Toca Spawn Match!");
+									$player->sendMessage($this->prefix . "Tippe den Spawn f�r den Kampf!");
 									$player->setGamemode(1);
                                                                         array_push($this->op, $player->getName());
 									$player->teleport($this->getServer()->getLevelByName($args[1])->getSafeSpawn(),0,0);
@@ -418,7 +418,7 @@ class BUHC extends PluginBase implements Listener {
 					else
 					{
 					 $player->sendMessage($this->prefix . "BUHC Commands!");
-                                         $player->sendMessage($this->prefix . "/BUHC make [world]: Create a game!");
+                                         $player->sendMessage($this->prefix . "/BUHC make [world] Create a game!");
 					}
 				}
 			return true;
@@ -443,17 +443,17 @@ class RefreshSigns extends PluginTask {
 				$text = $t->getText();
 				if($text[3]==$this->prefix)
 				{
-                                        $namemap = str_replace("Â§f", "", $text[2]);
+                                        $namemap = str_replace("�f", "", $text[2]);
 					$players = $this->plugin->getPlayers($namemap);
-					$ingame = TE::AQUA . "[Unirse]";
+					$ingame = TE::AQUA . "[Beitreten]";
                                         $allplayers = $this->plugin->getServer()->getLevelByName($namemap)->getPlayers();
 					if(count($allplayers)>=1)
 					{
-						$ingame = TE::DARK_PURPLE . "[En juego]";
+						$ingame = TE::DARK_PURPLE . "[Ingame]";
 					}
 					elseif(count($players)>=4)
 					{
-						$ingame = TE::GOLD . "[Lleno]";
+						$ingame = TE::GOLD . "[Voll]";
 					}
                                         $t->setText($ingame,TE::GREEN  . (count($players)) . " / 4",$text[2],$this->prefix);
 				}
@@ -488,7 +488,7 @@ class GameSender extends PluginTask {
                                     foreach($players as $pn){
                                         $p = $this->plugin->getServer()->getPlayerExact($pn);
                                         if($p != null) {
-                                            $this->plugin->hud->sendPopup($p,TE::GREEN . "Esperando jugadores");
+                                            $this->plugin->hud->sendPopup($p,TE::GREEN . "Warte auf weitere Spieler");
                                         } else {
                                             $this->plugin->removePlayerFromArena($arena, $pn);
                                         }
@@ -506,15 +506,15 @@ class GameSender extends PluginTask {
                                         }
                                         if(count($players)>=4)
                                         {
-                                            $config->set($arena . "inicio", 1);
+                                            $config->set($arena . "Spawn", 1);
                                             $config->save();
                                         }
                                         elseif(count($players)==0)
                                         {
-                                            $config->set($arena . "inicio", 0);
+                                            $config->set($arena . "Spawn", 0);
                                             $config->save();
                                         }
-                                        if($config->get($arena . "inicio")==1)
+                                        if($config->get($arena . "Spawn")==1)
                                         {
                                             if($timeToStart>0)
                                             {
@@ -523,18 +523,18 @@ class GameSender extends PluginTask {
                                                     {
                                                         $pl = $this->plugin->getServer()->getPlayerExact($pley);
                                                         if($pl==null) return;
-                                                        $this->plugin->hud->sendPopup($pl,TE::WHITE."Comenzando en ".TE::GREEN . $timeToStart . TE::RESET);
+                                                        $this->plugin->hud->sendPopup($pl,TE::WHITE."Beginnt in ".TE::GREEN . $timeToStart . TE::RESET);
                                                         if($timeToStart<=0)
                                                         {
                                                             $this->plugin->getteam($pl, $arena);
                                                             $thespawn = $config->get($arena . "Spawn1");
-                                                            if(strpos($pl->getNameTag(), "Â§c[RED]") !== false)
+                                                            if(strpos($pl->getNameTag(), "�c[RED]") !== false)
                                                             {
                                                             $spawn = new Position($thespawn[0]+10.5,$thespawn[1]+1,$thespawn[2]+0.5,$levelArena);
                                                             $levelArena->loadChunk($spawn->getFloorX(), $spawn->getFloorZ());
                                                             $pl->teleport($spawn,90,0);
                                                             }
-                                                            elseif(strpos($pl->getNameTag(), "Â§9[BLUE]") !== false)
+                                                            elseif(strpos($pl->getNameTag(), "�9[BLUE]") !== false)
                                                             {
                                                             $spawn = new Position($thespawn[0]-10.5,$thespawn[1]+1,$thespawn[2]+0.5,$levelArena);
                                                             $levelArena->loadChunk($spawn->getFloorX(), $spawn->getFloorZ());
@@ -569,15 +569,15 @@ class GameSender extends PluginTask {
                                                     }
                                                     }
                                                     $names = implode("-", $colors);
-                                                    $red = substr_count($names, "Â§c[RED]");
-                                                    $blue = substr_count($names, "Â§9[BLUE]");
+                                                    $red = substr_count($names, "�c[RED]");
+                                                    $blue = substr_count($names, "�9[BLUE]");
                                                     $second = $time % 60;
                                                     $timer = ($time - $second) / 60;
                                                     $minutes = $timer % 60;
                                                     $seconds = str_pad($second, 2, "0", STR_PAD_LEFT);
                                                     foreach($playersArena as $pla)
                                                     {
-                                                    $this->plugin->hud->sendPopup($pla,TE::BOLD.TE::RED."R:".$red.TE::BLUE."  B:".$blue.TE::GREEN."  Termina en: ".TE::YELLOW.$minutes.TE::GRAY.":".TE::YELLOW.$seconds. TE::RESET);
+                                                    $this->plugin->hud->sendPopup($pla,TE::BOLD.TE::RED."R:".$red.TE::BLUE."  B:".$blue.TE::GREEN."  Terminal ".TE::YELLOW.$minutes.TE::GRAY.":".TE::YELLOW.$seconds. TE::RESET);
                                                     }
                                                     if($aop>=1)
                                                     {
@@ -587,11 +587,11 @@ class GameSender extends PluginTask {
                                                                 $winners = array();
                                                                 if($red!=0 && $blue==0)
                                                                 {
-                                                                    $winner = TE::RED."[RED]".TE::GREEN." ha vencido a ".TE::BLUE."[BLUE]".TE::GREEN." en ";
+                                                                    $winner = TE::RED."[RED]".TE::GREEN." besiegte".TE::BLUE."[BLUE]".TE::GREEN." en ";
                                                                     foreach($players as $pley)
                                                                     {
                                                                         $pl = $this->getOwner()->getServer()->getPlayerExact($pley);
-                                                                        if(strpos($pl->getNameTag(), "Â§c[RED]") !== false)
+                                                                        if(strpos($pl->getNameTag(), "�c[RED]") !== false)
                                                                         {
                                                                             array_push($winners, $pl->getName());
                                                                             $lal = TE::RED;
@@ -600,11 +600,11 @@ class GameSender extends PluginTask {
                                                                 }
                                                                 if($red==0 && $blue!=0)
                                                                 {
-                                                                    $winner = TE::BLUE."[BLUE]".TE::GREEN." ha vencido a ".TE::RED."[RED]".TE::GREEN." en ";
+                                                                    $winner = TE::BLUE."[BLUE]".TE::GREEN." besiegte".TE::RED."[RED]".TE::GREEN." en ";
                                                                     foreach($players as $pley)
                                                                     {
                                                                         $pl = $this->getOwner()->getServer()->getPlayerExact($pley);
-                                                                        if(strpos($pl->getNameTag(), "Â§9[BLUE]") !== false)
+                                                                        if(strpos($pl->getNameTag(), "�9[BLUE]") !== false)
                                                                         {
                                                                             array_push($winners, $pl->getName());
                                                                             $lal = TE::BLUE;
@@ -615,7 +615,7 @@ class GameSender extends PluginTask {
                                                                 {
                                                                     $this->getOwner()->getServer()->broadcastMessage($this->prefix .TE::YELLOW. ">> ".$winner.TE::AQUA.$arena);
                                                                     $namewin = implode(", ", $winners);
-                                                                    $this->getOwner()->getServer()->broadcastMessage($this->prefix .TE::YELLOW. ">> ".TE::AQUA."Ganaron: ".$lal.$namewin);
+                                                                    $this->getOwner()->getServer()->broadcastMessage($this->prefix .TE::YELLOW. ">> ".TE::AQUA."Sie haben gewonnen: ".$lal.$namewin);
                                                                     foreach($playersArena as $pl)
                                                                     {
                                                                         $pl->getInventory()->clearAll();
@@ -629,7 +629,7 @@ class GameSender extends PluginTask {
                                                                         $this->plugin->reload($arena);
                                                                         $config->set($arena . "PlayTime", 600);
                                                                         $config->set($arena . "StartTime", 10);
-                                                                        $config->set($arena . "inicio", 0);
+                                                                        $config->set($arena . "Spawn", 0);
                                                                         $config->save();
                                                                     }
                                                                 }
@@ -642,8 +642,8 @@ class GameSender extends PluginTask {
                                                         {
                                                             $pl = $this->getOwner()->getServer()->getPlayerExact($pley);
                                                             $pl->sendMessage(TE::YELLOW.">--------------------------------");
-                                                            $pl->sendMessage(TE::YELLOW.">".TE::RED."AtenciÃ³n: ".TE::GOLD."BUHC ha comenzado");
-                                                            $pl->sendMessage(TE::YELLOW.">".TE::GREEN."Tienes ".TE::AQUA."10".TE::GREEN." minutos para ganar");
+                                                            $pl->sendMessage(TE::YELLOW.">".TE::RED."Ich habe aufgepasst: ".TE::GOLD."BUHC hat begonnen");
+                                                            $pl->sendMessage(TE::YELLOW.">".TE::GREEN." Du hast".TE::AQUA."10".TE::GREEN." Minuten um zu gewinnen!");
                                                             $pl->sendMessage(TE::YELLOW.">--------------------------------");
                                                         }
                                                     }
@@ -658,10 +658,10 @@ class GameSender extends PluginTask {
                                                                 $pl->setHealth(20);
                                                                 $pl->setNameTag($pl->getName());
                                                                 $this->plugin->reload($arena);
-                                                                $config->set($arena . "inicio", 0);
+                                                                $config->set($arena . "Spawn", 0);
                                                                 $config->save();
                                                             }
-                                                            $this->getOwner()->getServer()->broadcastMessage($this->prefix .TE::YELLOW. ">> ".TE::RED."No hay ganadores en ".TE::AQUA.$arena);
+                                                            $this->getOwner()->getServer()->broadcastMessage($this->prefix .TE::YELLOW. ">> ".TE::RED."Es gibt keinen Gewinner in ".TE::AQUA.$arena);
                                                             $time = 600;
                                                     }
                                                     $config->set($arena . "PlayTime", $time);
